@@ -1,0 +1,14 @@
+Using launch settings from C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\Properties\launchSettings.json...
+Building...
+C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\Models\Medicine.cs(6,23): warning CS8618: Non-nullable property 'Name' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\PharmacyService.csproj]
+C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\Models\Medicine.cs(7,23): warning CS8618: Non-nullable property 'Manufacturer' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\PharmacyService.csproj]
+C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\Models\Medicine.cs(8,23): warning CS8618: Non-nullable property 'Description' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\PharmacyService.csproj]
+C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\Models\Medicine.cs(10,23): warning CS8618: Non-nullable property 'ExpiryDate' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService\PharmacyService.csproj]
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5116
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\PharmacyService

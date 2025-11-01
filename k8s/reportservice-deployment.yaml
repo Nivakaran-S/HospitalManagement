@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reportservice-deployment
+  labels:
+    app: reportservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reportservice
+  template:
+    metadata:
+      labels:
+        app: reportservice
+    spec:
+      containers:
+      - name: reportservice
+        image: nivakaran/reportservice:latest
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reportservice
+spec:
+  selector:
+    app: reportservice
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

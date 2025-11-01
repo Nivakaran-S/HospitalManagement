@@ -1,0 +1,70 @@
+Using launch settings from C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\ApiGateway\Properties\launchSettings.json...
+Building...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5000
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\LENOVO\Desktop\FINAL PROJECTS\Hospital-Management-System\services\ApiGateway
+warn: Ocelot.DownstreamRouteFinder.Middleware.DownstreamRouteFinderMiddleware[0]
+      requestId: 0HNGMNAFC9E4G:00000001, previousRequestId: No PreviousRequestId, message: 'DownstreamRouteFinderMiddleware setting pipeline errors. IDownstreamRouteFinder returned Error Code: UnableToFindDownstreamRouteError Message: Failed to match Route configuration for upstream path: /, verb: GET.'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4G:00000001, previousRequestId: No PreviousRequestId, message: 'Error Code: UnableToFindDownstreamRouteError Message: Failed to match Route configuration for upstream path: /, verb: GET. errors found in ResponderMiddleware. Setting error response for request path:/, request method: GET'
+warn: Ocelot.DownstreamRouteFinder.Middleware.DownstreamRouteFinderMiddleware[0]
+      requestId: 0HNGMNAFC9E4G:00000002, previousRequestId: No PreviousRequestId, message: 'DownstreamRouteFinderMiddleware setting pipeline errors. IDownstreamRouteFinder returned Error Code: UnableToFindDownstreamRouteError Message: Failed to match Route configuration for upstream path: /notification, verb: GET.'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4G:00000002, previousRequestId: No PreviousRequestId, message: 'Error Code: UnableToFindDownstreamRouteError Message: Failed to match Route configuration for upstream path: /notification, verb: GET. errors found in ResponderMiddleware. Setting error response for request path:/notification, request method: GET'
+info: Ocelot.RateLimiting.Middleware.RateLimitingMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000001, previousRequestId: No PreviousRequestId, message: 'EndpointRateLimiting is not enabled for /api/{everything}'
+info: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000001, previousRequestId: No PreviousRequestId, message: 'The path '/donors/' is an authenticated route! AuthenticationMiddleware checking if client is authenticated...'
+warn: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000001, previousRequestId: No PreviousRequestId, message: 'Client has NOT been authenticated for path '/donors/' and pipeline error set. Request for authenticated route '/donors/' was unauthenticated;'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000001, previousRequestId: No PreviousRequestId, message: 'Error Code: UnauthenticatedError Message: Request for authenticated route '/donors/' was unauthenticated errors found in ResponderMiddleware. Setting error response for request path:/donors/, request method: GET'
+warn: Ocelot.DownstreamRouteFinder.Middleware.DownstreamRouteFinderMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000002, previousRequestId: No PreviousRequestId, message: 'DownstreamRouteFinderMiddleware setting pipeline errors. IDownstreamRouteFinder returned Error Code: UnableToFindDownstreamRouteError Message: Failed to match Route configuration for upstream path: /notification/, verb: GET.'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000002, previousRequestId: No PreviousRequestId, message: 'Error Code: UnableToFindDownstreamRouteError Message: Failed to match Route configuration for upstream path: /notification/, verb: GET. errors found in ResponderMiddleware. Setting error response for request path:/notification/, request method: GET'
+info: Ocelot.RateLimiting.Middleware.RateLimitingMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000003, previousRequestId: No PreviousRequestId, message: 'EndpointRateLimiting is not enabled for /api/{everything}'
+info: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000003, previousRequestId: No PreviousRequestId, message: 'The path '/donors/' is an authenticated route! AuthenticationMiddleware checking if client is authenticated...'
+warn: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000003, previousRequestId: No PreviousRequestId, message: 'Client has NOT been authenticated for path '/donors/' and pipeline error set. Request for authenticated route '/donors/' was unauthenticated;'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4I:00000003, previousRequestId: No PreviousRequestId, message: 'Error Code: UnauthenticatedError Message: Request for authenticated route '/donors/' was unauthenticated errors found in ResponderMiddleware. Setting error response for request path:/donors/, request method: GET'
+info: Ocelot.RateLimiting.Middleware.RateLimitingMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000001, previousRequestId: No PreviousRequestId, message: 'EndpointRateLimiting is not enabled for /api/{everything}'
+info: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000001, previousRequestId: No PreviousRequestId, message: 'The path '/prescriptions/' is an authenticated route! AuthenticationMiddleware checking if client is authenticated...'
+warn: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000001, previousRequestId: No PreviousRequestId, message: 'Client has NOT been authenticated for path '/prescriptions/' and pipeline error set. Request for authenticated route '/prescriptions/' was unauthenticated;'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000001, previousRequestId: No PreviousRequestId, message: 'Error Code: UnauthenticatedError Message: Request for authenticated route '/prescriptions/' was unauthenticated errors found in ResponderMiddleware. Setting error response for request path:/prescriptions/, request method: GET'
+info: Ocelot.RateLimiting.Middleware.RateLimitingMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000002, previousRequestId: No PreviousRequestId, message: 'EndpointRateLimiting is not enabled for /api/{everything}'
+info: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000002, previousRequestId: No PreviousRequestId, message: 'The path '/billing/' is an authenticated route! AuthenticationMiddleware checking if client is authenticated...'
+warn: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000002, previousRequestId: No PreviousRequestId, message: 'Client has NOT been authenticated for path '/billing/' and pipeline error set. Request for authenticated route '/billing/' was unauthenticated;'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000002, previousRequestId: No PreviousRequestId, message: 'Error Code: UnauthenticatedError Message: Request for authenticated route '/billing/' was unauthenticated errors found in ResponderMiddleware. Setting error response for request path:/billing/, request method: GET'
+info: Ocelot.RateLimiting.Middleware.RateLimitingMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000003, previousRequestId: No PreviousRequestId, message: 'EndpointRateLimiting is not enabled for /api/{everything}'
+info: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000003, previousRequestId: No PreviousRequestId, message: 'The path '/billing/health' is an authenticated route! AuthenticationMiddleware checking if client is authenticated...'
+warn: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000003, previousRequestId: No PreviousRequestId, message: 'Client has NOT been authenticated for path '/billing/health' and pipeline error set. Request for authenticated route '/billing/health' was unauthenticated;'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000003, previousRequestId: No PreviousRequestId, message: 'Error Code: UnauthenticatedError Message: Request for authenticated route '/billing/health' was unauthenticated errors found in ResponderMiddleware. Setting error response for request path:/billing/health, request method: GET'
+info: Ocelot.RateLimiting.Middleware.RateLimitingMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000004, previousRequestId: No PreviousRequestId, message: 'EndpointRateLimiting is not enabled for /api/{everything}'
+info: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000004, previousRequestId: No PreviousRequestId, message: 'The path '/appointments/health' is an authenticated route! AuthenticationMiddleware checking if client is authenticated...'
+warn: Ocelot.Authentication.Middleware.AuthenticationMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000004, previousRequestId: No PreviousRequestId, message: 'Client has NOT been authenticated for path '/appointments/health' and pipeline error set. Request for authenticated route '/appointments/health' was unauthenticated;'
+warn: Ocelot.Responder.Middleware.ResponderMiddleware[0]
+      requestId: 0HNGMNAFC9E4K:00000004, previousRequestId: No PreviousRequestId, message: 'Error Code: UnauthenticatedError Message: Request for authenticated route '/appointments/health' was unauthenticated errors found in ResponderMiddleware. Setting error response for request path:/appointments/health, request method: GET'

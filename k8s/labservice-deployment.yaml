@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: labservice-deployment
+  labels:
+    app: labservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: labservice
+  template:
+    metadata:
+      labels:
+        app: labservice
+    spec:
+      containers:
+      - name: labservice
+        image: nivakaran/labservice:latest
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: labservice
+spec:
+  selector:
+    app: labservice
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

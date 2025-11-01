@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billingservice-deployment
+  labels:
+    app: billingservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: billingservice
+  template:
+    metadata:
+      labels:
+        app: billingservice
+    spec:
+      containers:
+      - name: billingservice
+        image: nivakaran/billingservice:latest
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: billingservice
+spec:
+  selector:
+    app: billingservice
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

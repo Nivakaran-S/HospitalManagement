@@ -1,0 +1,67 @@
+version: '3.8'
+
+networks:
+  hospital-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  keycloak_data:
+
+services:
+  # Only PostgreSQL and Keycloak
+  # Run your .NET services directly with dotnet run
+  
+  postgres:
+    image: postgres:15-alpine
+    container_name: hospital-postgres
+    environment:
+      POSTGRES_USER: hospital_admin
+      POSTGRES_PASSWORD: hospital_pass_2024
+      POSTGRES_DB: hospital_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - hospital-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hospital_admin -d hospital_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: hospital-keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: hospital_db
+      KC_DB_URL_PORT: 5432
+      KC_DB_USERNAME: hospital_admin
+      KC_DB_PASSWORD: hospital_pass_2024
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HEALTH_ENABLED: true
+    command:
+      - start-dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hospital-network
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: 127.0.0.1\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s

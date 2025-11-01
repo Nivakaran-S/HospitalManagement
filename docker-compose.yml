@@ -1,0 +1,325 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hospital-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - hospital-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong@Passw0rd" -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Keycloak for Authentication
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: hospital-keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=dev-file
+    command: start-dev
+    ports:
+      - "8080:8080"
+    networks:
+      - hospital-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # API Gateway
+  apigateway:
+    build:
+      context: ./services/ApiGateway
+      dockerfile: Dockerfile
+    container_name: hospital-apigateway
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Patient Service
+  patientservice:
+    build:
+      context: ./services/PatientService
+      dockerfile: Dockerfile
+    container_name: hospital-patientservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PatientDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Doctor Service
+  doctorservice:
+    build:
+      context: ./services/DoctorService
+      dockerfile: Dockerfile
+    container_name: hospital-doctorservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DoctorDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Appointment Service
+  appointmentservice:
+    build:
+      context: ./services/AppointmentService
+      dockerfile: Dockerfile
+    container_name: hospital-appointmentservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AppointmentDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Billing Service
+  billingservice:
+    build:
+      context: ./services/BillingService
+      dockerfile: Dockerfile
+    container_name: hospital-billingservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BillingDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Prescription Service
+  prescriptionservice:
+    build:
+      context: ./services/PrescriptionService
+      dockerfile: Dockerfile
+    container_name: hospital-prescriptionservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PrescriptionDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Donor Service
+  donorservice:
+    build:
+      context: ./services/DonorService
+      dockerfile: Dockerfile
+    container_name: hospital-donorservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DonorDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Lab Service
+  labservice:
+    build:
+      context: ./services/LabService
+      dockerfile: Dockerfile
+    container_name: hospital-labservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LabDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Pharmacy Service
+  pharmacyservice:
+    build:
+      context: ./services/PharmacyService
+      dockerfile: Dockerfile
+    container_name: hospital-pharmacyservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PharmacyDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Inventory Service
+  inventoryservice:
+    build:
+      context: ./services/InventoryService
+      dockerfile: Dockerfile
+    container_name: hospital-inventoryservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=InventoryDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Staff Service
+  staffservice:
+    build:
+      context: ./services/StaffService
+      dockerfile: Dockerfile
+    container_name: hospital-staffservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StaffDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Admin Service
+  adminservice:
+    build:
+      context: ./services/AdminService
+      dockerfile: Dockerfile
+    container_name: hospital-adminservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AdminDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Report Service
+  reportservice:
+    build:
+      context: ./services/ReportService
+      dockerfile: Dockerfile
+    container_name: hospital-reportservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ReportDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+      - Services__BillingService=http://billingservice
+      - Services__PatientService=http://patientservice
+      - Services__AppointmentService=http://appointmentservice
+      - Services__PharmacyService=http://pharmacyservice
+      - Services__LabService=http://labservice
+      - Services__InventoryService=http://inventoryservice
+      - Services__StaffService=http://staffservice
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Payment Service
+  paymentservice:
+    build:
+      context: ./services/PaymentService
+      dockerfile: Dockerfile
+    container_name: hospital-paymentservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PaymentDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Notification Service
+  notificationservice:
+    build:
+      context: ./services/NotificationService
+      dockerfile: Dockerfile
+    container_name: hospital-notificationservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=NotificationDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Keycloak__Authority=http://keycloak:8080/realms/hospitalrealm
+      - Keycloak__Audience=hospital-client
+    depends_on:
+      - sqlserver
+      - keycloak
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+networks:
+  hospital-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
